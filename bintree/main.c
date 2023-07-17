@@ -1,4 +1,4 @@
-#include "btree.h"
+#include "bintree.h"
 
 struct mydata {
 	unsigned long long addr;
@@ -23,47 +23,47 @@ static int mycmp(const void *a, const void *b) {
 }
 
 int main () {
-	struct btree_node *n, *bt = NULL;
-	//btree_init(&bt);
+	struct bintree_node *n, *bt = NULL;
+	//bintree_init(&bt);
 
 	struct mydata foo = { 10, "hello" };
 	struct mydata bar = { 20, "world" };
 
-	printf ("EMPTY TREE: %d\n", btree_empty (&bt));
-	btree_add (&bt, &foo, mycmp);
-	btree_add (&bt, &bar, mycmp);
-	printf ("EMPTY TREE: %d\n", btree_empty (&bt));
+	printf ("EMPTY TREE: %d\n", bintree_empty (&bt));
+	bintree_add (&bt, &foo, mycmp);
+	bintree_add (&bt, &bar, mycmp);
+	printf ("EMPTY TREE: %d\n", bintree_empty (&bt));
 
 	printf ("==== go search ====\n");
 	/* find existent data */
-	struct mydata *p = btree_get (bt, &bar, mycmp);
+	struct mydata *p = bintree_get (bt, &bar, mycmp);
 	shownode ("result for 20: ", p);
 
 	printf ("==== go search ====\n");
 	/* find unexistent data */
 	struct mydata nop = { 15, NULL };
-	p = btree_get (bt, &nop, mycmp);
+	p = bintree_get (bt, &nop, mycmp);
 	shownode ("result for 15: ", p);
 
 	printf ("==== go get hittest ====\n");
-	n = btree_hittest (bt, NULL);
+	n = bintree_hittest (bt, NULL);
 	shownode ("hitest is: ", p);
 
 	printf ("==== go remove 20 ====\n");
-	if (btree_del (bt, &bar, mycmp, NULL))
+	if (bintree_del (bt, &bar, mycmp, NULL))
 		printf ("node found and removed\n");
 	else printf ("oops\n");
 
 	printf ("==== go search ====\n");
 	/* find existent data */
-	p = btree_get (bt, &bar, mycmp);
+	p = bintree_get (bt, &bar, mycmp);
 	shownode ("result for 20: ", p);
 
 	printf ("==== go search ====\n");
 	/* find existent data */
-	p = btree_get (bt, &foo, mycmp);
+	p = bintree_get (bt, &foo, mycmp);
 	shownode ("result for 10: ", p);
 
-	btree_cleartree (bt, NULL);
+	bintree_cleartree (bt, NULL);
 	return 0;
 }
